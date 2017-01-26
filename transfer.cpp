@@ -1,3 +1,45 @@
+enum edgeLayout{
+	top,
+	bottom,
+	left,
+	right
+};
+
+struct panelPositionNorm{
+	uint8 index;
+	real32 left;
+	real32 bottom;
+	real32 right;
+	real32 top;
+};
+
+struct panelPositionPixel{
+	int8 index;
+	uint16 left;
+	uint16 bottom;
+	uint16 right;
+	uint16 top;
+};
+
+struct panelDiv{
+	int index;
+	real32 percent;//from top or left
+	bool divDir;
+};
+
+struct screenLayout{
+	uint8 count;
+	// which edge the profiler view grows from
+	enum edgeLayout profilerViewEdgeLaid;
+	bool isMaximized;//whether the focused panel is maximized
+	bool isGUIFree;
+	// we need the max. potential future size of any panel affected by this division,
+	int divBeingResized;
+	panelDiv div[256];
+	panelPositionNorm posN[256];// final panel sizes from 0 to 1(screen size)
+	panelPositionPixel posP[256];// final panel sizes in pixels
+};
+____________________________________________________________________________________________________________________
 // NOT IN USE
 /*
 void bakePanelDivs(screenLayout* scr){
@@ -65,8 +107,7 @@ void initializeScreenLayout(screenLayout* scr, int resW, int resH){
 		scr->posP[it] = {it,resW,resH,resW,resH};
 	}
 }
-
-
+____________________________________________________________________________________________________________________
 if(test==9){
 	int screenSizeWidth = 512;
 	int screenSizeHeight = 512;
