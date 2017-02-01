@@ -1,209 +1,109 @@
-enum edgeLayout{
-	top,
-	bottom,
-	left,
-	right
-};
+:: global UI state stores latent (past) user input. eg, the type of panel that has the focus of the user currently.
+:: from raw input and global UI state, get an action the user intends to perform,
 
-struct panelPositionNorm{
-	uint8 index;
-	real32 left;
-	real32 bottom;
-	real32 right;
-	real32 top;
-};
+:: @user_action_get,
+	:: for all raw inputs queued,
+	:: is there a key release?
+		:: then go through the list removing matching key presses. (making them null)
+		:: compress the queue if removals have happened.
+	:: convert the screen position from raw_input into an application's position as integers x,y
+	:: origin of coordinates for the screen being a corner (probable top-left corner)
+	:: while the raw input queue is not empty,
+		:: is input a left mouse button or a tip of tablet pen click?
+			:: get panel id under the click,
+			:: is the panel id different than the currently focused panel?
+; 				:: then we need to change the focus to the panel with that ID, @panel_give_focus.
+:: @panel_give_focus,
+	:: <...>
 
-struct panelPositionPixel{
-	int8 index;
-	uint16 left;
-	uint16 bottom;
-	uint16 right;
-	uint16 top;
-};
+; 			:: call @selection_start.
+:: @selection_start,
+	:: <...>
 
-struct panelDiv{
-	int index;
-	real32 percent;//from top or left
-	bool divDir;
-};
+		:: scan through all stored bindings, comparing the current key queue.
+			:: is the first key press in the queue matching any key_bindings?
+				:: then make a list with those.
+				:: is the second key press in the queue not matching a key_binding in the list?
+					:: cull the entry ( make it null )
+					:: 
 
-struct screenLayout{
-	uint8 count;
-	// which edge the profiler view grows from
-	enum edgeLayout profilerViewEdgeLaid;
-	bool isMaximized;//whether the focused panel is maximized
-	bool isGUIFree;
-	// we need the max. potential future size of any panel affected by this division,
-	int divBeingResized;
-	panelDiv div[256];
-	panelPositionNorm posN[256];// final panel sizes from 0 to 1(screen size)
-	panelPositionPixel posP[256];// final panel sizes in pixels
-};
-____________________________________________________________________________________________________________________
-// NOT IN USE
-/*
-void bakePanelDivs(screenLayout* scr){
-	i c = scr->count;
-	// we start with a full screen sized panel,
-	panelPosition tmpPos={0};
-	tmpPos.right=(int)(1*screenSizeWidth);
-	tmpPos.top=(int)(1*screenSizeHeight);
-	scr->div[0].pos=tmpPos;
-
-	for (i it=0; it<c; ++it){
-		
-	}
-}
-//*/
-
-void createDivPanel(screenLayout* scr, int ind, real32 perc, bool vert){
-	int c = scr->count;
-	if (c<256){
-		scr->div[c].index = ind;
-		scr->div[c].divDir = vert;
-		scr->div[c].percent = perc;
-		scr->count++;
-	}
-}
-
-void removeDivPanel(screenLayout* scr, i index){
-	int it = 0;
-	for (; it < (256-1); ++it){
-		if (it==index){
-//			scr->div[index]=scr->dic[index+1];
-		}
-		scr->count--;
-	}
-}
-
-/*
-TODO
-panelPosition getPanelLayout(screenLayout* scr, i index, f posX, f posY){
-	panelPosition pos = {0};
-	// when resizing we need the max. potential future size of any panel 
-	// affected by the division changing,
-	return scr->div[index].pos;
-}
-*/
-
-// if index is given(not neg), we will ignore the pos,
-int getPanelIndex(screenLayout* scr, real32 coordX, real32 coordY){
-	int c = 1;
-	for(;c<=scr->count;++c){// for each panel
-		if ((scr->posP[c].left<=coordX)&&(coordX<( scr->posP[c].left + scr->posP[c].right ) ) ){
-			if ((scr->posP[c].bottom<=coordY)&&(coordY<( scr->posP[c].bottom + scr->posP[c].top ) ) ){
-				return c;
-			}
-		}
-	}
-//	printf("FAIL!!!");
-	return 0;
-}
-
-void initializeScreenLayout(screenLayout* scr, int resW, int resH){
-	int it = 0;
-	for (; it<256; ++it){
-		scr->posN[it] = {it,0,0,1,1};
-		scr->posP[it] = {it,resW,resH,resW,resH};
-	}
-}
-____________________________________________________________________________________________________________________
-if(test==9){
-	int screenSizeWidth = 512;
-	int screenSizeHeight = 512;
-	screenLayout layout = {0};
-	initializeScreenLayout(&layout, screenSizeWidth, screenSizeHeight);
-	///*
-	createDivPanel(&layout, 0, 0.0, true);
-	createDivPanel(&layout, 0, 0.25, false);
-	createDivPanel(&layout, 1, 0.5, false);
-	createDivPanel(&layout, 2, 0.15, true);
-	createDivPanel(&layout, 3, 0.8, false);
-	//*/
-	int k = 0;
-	bool vert = true;
-	bool horiz = false;
-	uint8 panelCount = layout.count;
-	int32 origPixelSize = screenSizeWidth*screenSizeHeight;
-
-	real32 tmpSize = 0.0f;
-	int pn = 0;
-	real32 tmp = 0.0f;
-	k = 1;
-	for(; k < panelCount; ++k){
-		if(layout.div[k].percent > 0.1){
-			pn = layout.div[k].index + 1;
-			if(layout.div[k].divDir == vert){
-				tmp = layout.posN[pn].right;
-				layout.posN[pn].right *= layout.div[k].percent;
-				// creating a new panel,
-				layout.posN[k+1].left = 
-					layout.posN[pn].left +
-					layout.posN[layout.div[k].index+1].right;
-				layout.posN[k+1].bottom = layout.posN[pn].bottom;
-				layout.posN[k+1].right = tmp - layout.posN[pn].right;
-				layout.posN[k+1].top = layout.posN[pn].top;
-			}
-			if(layout.div[k].divDir == horiz){
-				tmp = layout.posN[pn].top;
-				layout.posN[pn].top *= layout.div[k].percent;
-				// creating a new panel,
-				layout.posN[k+1].left = layout.posN[pn].left;
-				layout.posN[k+1].bottom = 
-					layout.posN[pn].bottom +
-					layout.posN[layout.div[k].index+1].top;
-				layout.posN[k+1].right = layout.posN[pn].right;
-				layout.posN[k+1].top = tmp - layout.posN[pn].top;
-			}
-		}
-	}
-	for(k=0; k<=panelCount; ++k){
-		layout.posP[k].left *= layout.posN[k].left;
-		layout.posP[k].bottom *= layout.posN[k].bottom;
-		layout.posP[k].right *= layout.posN[k].right;
-		layout.posP[k].top *= layout.posN[k].top;
-	}
-	int area = 0;
-	int tmpArea = 0;
-	for(k=1; k<=panelCount; ++k){
-		tmpArea = layout.posP[k].right * layout.posP[k].top;
-		area += tmpArea;
-	}
+	:: are the keys "CTRL", "ALT"  and a directional key (UP, DOWN, LEFT, RIGHT) pressed together?
+		:: is the event creating or destroying a panel?
+		:: is the key "SHIFT" also pressed?
+			:: then we write a #newDivision struct
+				:: <@sync>panel_add_remove
+				struct div nextDivisionAction = div(...);
+		:: else we are removing a panel
+				:: <@sync>panel_add_remove
+				struct div nextDivisionAction = div(...);
 	
-	for(k=1; k<=panelCount; ++k){
-		printf("%i %f %d, %i %f %f %f %f, %i %i %i %i %i, ",
-			layout.div[k].index, layout.div[k].percent, layout.div[k].divDir,
-			layout.posN[k].index,
-			layout.posN[k].left, layout.posN[k].bottom,
-			layout.posN[k].right, layout.posN[k].top,
-			layout.posP[k].index,
-			layout.posP[k].left, layout.posP[k].bottom, 
-			layout.posP[k].right, layout.posP[k].top
-			);
-		printf("\n");
-	}
-	printf("Area: %i, vs full screen: %i\n", area, screenSizeWidth*screenSizeHeight);
-	// writing out images
-	v p(0,0,0);
-	v color[256];
-	color[0] = v(255, 0, 255);
-	int n = 1;
-	printf("1\n");
-	for (; n<256; n++){
-		color[n] = v( (R()*125)+100, (R()*125)+100, (R()*125)+100 );
-	}
-	k=0;
-	printf("2\n");
-	for(int x=0;x<512;x++){// for each column
-		for(int y=0;y<512;y++){// for each pixel in a line
-//			printf("%i %1\n", x, y);
-			p = v(0,0,0);
-			p = color[getPanelIndex(&layout, x, y)];
-			buf[k+0]=(ui)p.x;
-			buf[k+1]=(ui)p.y;
-			buf[k+2]=(ui)p.z;
-			buf[k+3]=0;
-			k += 4;
-		}
-	}
-}
+	:: @panel_add_remove
+		:: <...>
+		:: now also change the focus accordingly, 
+			:: if creating a new panel change the focus to that.
+			:: if removing the panel we are in, change the focus to the parent panel.
+	:: else ( the focus is not an issue then )
+		:: switch to [ current focused Panel in visualObjectDatabase ], 
+		switch(focusedPanel.type){
+			:: case [ nodeGraph panel ],
+				:: is input a single writable character (also includes the Backspace)?
+					:: is there a createNode NOT selected? ( it also means it does not exist ).
+						:: create a createNode. 
+						:: (for the backspace character this brings up an empty createNode).
+						:: copy the input into it.
+				:: trigger a fSearch for possible node names for this createNode.
+					:: then, 
+						:: copy the input into it,
+				:: update current createNode fSearch for possible node names.
+				:: else is input more than one writable character?
+					:: then ASSERT ( can't decide which one should go first ).
+			:: case [ textEditor panel ], 
+				:: is input a writable character (also includes erasing character like Backspace or DEL)?
+					:: write the input into the buffer pointed by the vBuffer of the pane.
+						:: <...>
+					:: mark_vBuffer_dirty. <async>
+					:: change the UI state data, in this case the caret position
+				:: else it is a navigation input.
+					:: we could manage all inputs under a main switch like this, <...>alternatives?
+					:: switch [ ] { 
+						:: case [ is nav. going up / down one line ] 
+						:: case [ is nav. going up / down one paragraph ] 
+						:: case [ is nav. going up / down one page ] 
+						:: case [ is nav. going to the start / end of the buffer line ] 
+						:: case [ is nav. going left / right one character ] 
+						:: case [ is nav. going left / right one token ] 
+						:: case [ is nav. going left / right to character border ] 
+						:: case [ is nav. going to the start / end of the line]
+						
+						:: case [ is the caret position following navigation? ]
+						:: case [ is selection following navigation? ]
+					 
+					:: or we could keep specializing the response based on the particulars of the pInput
+					:: is input also impliying selection
+						:: <...>
+					:: else 
+						:: change the caret position to the new position as calculated by navigation strategies.
+							:: <...>
+						:: we update the virtual buffer to follow the navigation
+							:: is the vBuffer content changed based on the horizontal and vertical navigation strategies?
+							:: <...>
+			:: case <...>
+
+
+	:: using the structure that defines the panels in the application, @panel_get_index,
+	:: switch [ panel_type ],
+		:: case [ text_panel ]:
+		:: <...>
+		:: case [ graph_panel ]:
+		:: <...>
+		:: case [ sketch_panel ]:
+		:: <...>
+
+:: ???
+uh, no, solo hacemos esto si estamos dibujando...
+	:: store into positional history array, #positionHistory
+	:: <...>
+
+:: #positionHistory,
+:: array of 300 floats x,y,
+	float array[300*2]~
