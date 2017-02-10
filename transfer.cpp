@@ -4,23 +4,28 @@ import random
 import math
 
 random.seed(12345)
-txt = Image.new('RGBA', (128,128), (5,25,20,0))#base.size
+imgSize = 128
+#imgSize = 512
+txt = Image.new('RGBA', (imgSize,imgSize), (5,25,20,0))#base.size
 d = ImageDraw.Draw(txt)
 #d.text((10,10), "Hello", font=fnt, fill=(255,255,255,128))
 circles = []
 circles.append((80,80,20))
+aax = [0.25, 0.75, 0.25, 0.75]
+aay = [0.25, 0.25, 0.75, 0.75]
+
 for x in range(51):
 	for y in range(51):
 		r = int(random.random()*255)
 		g = int(random.random()*255)
 		b = int(random.random()*255)
 
-r = 20
-g = 30
-b = 130
-r2 = 120
-g2 = 30
-b2 = 30
+r = 0
+g = 200
+b = 0
+r2 = 200
+g2 = 0
+b2 = 0
 
 leftEdge = 0
 rightEdge = 0
@@ -32,14 +37,32 @@ for i in circles:
 		width = math.pow( ( i[2]*i[2] - (y-i[1])*(y-i[1]) ) , 0.5) * 2
 		for k in range(width):
 			xpos = x - int(width/2) + k
-			d.point( (xpos,y), fill = (r,g,b) )
-		for l in range(leftEdge, rightEdge):
-			d.point( (l,y-1), fill = (r2,g2,b2) )
-			
+			pick = txt.getpixel((xpos,y))
+			newColor = (pick[0] , g , pick[2]) 
+#			d.point( (xpos,y), fill = newColor )
 		leftEdge = x - int(width/2)
 		rightEdge = leftEdge + width
+		for l in range(leftEdge, rightEdge):
+			pick = txt.getpixel((xpos,y))
+			newColor = (r2, pick[1] , pick[2] ) 
+#			d.point( (l,y-1), fill = (r2,g2,b2) )
 		y += 1
 #		print r
-txt = txt.resize((1024,1024))
+result = txt.getpixel((0,0))
+print result 
+for i in range( imgSize ):
+	for j in range( imgSize ):
+		pick = txt.getpixel((i,j))
+		inc = 0
+		for aa in range(4):
+			distance  = (circles[0][0]-i+aax[aa])**2 + (circles[0][0]-j+aax[aa])**2
+			radius = circles[0][2]**2
+			if distance <= radius:
+				inc += 50
+		newColor = (pick[0] , pick[1] , inc ) 
+		d.point( (i,j), fill=newColor )
+
+
+txt = txt.resize((512,512))
 txt.show()
 print circles
