@@ -6,7 +6,7 @@ import math
 random.seed(12345)
 imgSize = 128
 #imgSize = 512
-txt = Image.new('RGBA', (imgSize,imgSize), (5,25,20,0))#base.size
+txt = Image.new('RGBA', (imgSize,imgSize), (0,0,0,0))#base.size
 d = ImageDraw.Draw(txt)
 #d.text((10,10), "Hello", font=fnt, fill=(255,255,255,128))
 circles = []
@@ -21,9 +21,9 @@ for x in range(51):
 		b = int(random.random()*255)
 
 r = 0
-g = 200
+g = 100
 b = 0
-r2 = 200
+r2 = 100
 g2 = 0
 b2 = 0
 
@@ -35,17 +35,18 @@ for i in circles:
 	y = i[1] - i[2]
 	for j in range( int( i[2]*2 ) ):
 		width = math.pow( ( i[2]*i[2] - (y-i[1])*(y-i[1]) ) , 0.5) * 2
+		xpos = 0
 		for k in range(width):
 			xpos = x - int(width/2) + k
 			pick = txt.getpixel((xpos,y))
 			newColor = (pick[0] , g , pick[2]) 
-#			d.point( (xpos,y), fill = newColor )
-		leftEdge = x - int(width/2)
-		rightEdge = leftEdge + width
+			d.point( (xpos,y), fill = newColor )
+		leftEdge = x - int(width/2) -1
+		rightEdge = leftEdge + width +2
 		for l in range(leftEdge, rightEdge):
 			pick = txt.getpixel((xpos,y))
 			newColor = (r2, pick[1] , pick[2] ) 
-#			d.point( (l,y-1), fill = (r2,g2,b2) )
+			d.point( (l,y+1), fill = (r2,g2,b2) )
 		y += 1
 #		print r
 result = txt.getpixel((0,0))
