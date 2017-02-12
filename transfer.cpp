@@ -36,14 +36,14 @@ for i in circles:
 	for j in range( int( i[2]*2 ) ):
 		width = math.pow( ( i[2]*i[2] - (y-i[1])*(y-i[1]) ) , 0.5) * 2
 		xpos = 0
-		for k in range(width):
+		for k in range( int(width) ):
 			xpos = x - int(width/2) + k
 			pick = txt.getpixel((xpos,y))
 			newColor = (pick[0] , g , pick[2]) 
 			d.point( (xpos,y), fill = newColor )
 		leftEdge = x - int(width/2) -1
 		rightEdge = leftEdge + width +2
-		for l in range(leftEdge, rightEdge):
+		for l in range( leftEdge, int(rightEdge) ):
 			pick = txt.getpixel((xpos,y))
 			newColor = (r2, pick[1] , pick[2] ) 
 			d.point( (l,y+1), fill = (r2,g2,b2) )
