@@ -60,9 +60,12 @@ for i in range( imgSize ):
 			radius = circles[0][2]**2
 			if distance <= radius:
 				inc += 50
+		if inc < 200 and inc > 0:
+				inc = 255
+		elif inc > 0:
+			inc = 100
 		newColor = (pick[0] , pick[1] , inc ) 
 		d.point( (i,j), fill=newColor )
-
 
 txt = txt.resize((512,512))
 txt.show()
