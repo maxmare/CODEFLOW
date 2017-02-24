@@ -1,3 +1,34 @@
+bool curveInside(v u1,v u2,v u3,v pt){
+	bool result = false;
+	bool inBbox = true;
+
+	f ux[2];//ux[0] is the x that gets a projected y
+	f uy[2];//uy[1] is the y that gets a projected x
+
+	seg1x = fabs(u1.x - u2.x)
+	seg1y = fabs(u1.y - u2.y)
+	seg2x = fabs(u3.x - u2.x)
+	seg2y = fabs(u3.y - u2.y)
+
+	if (seg2y < seg1y) uy[1]
+	
+	projX = seg1x / seg1y;
+	projY = seg2x / seg2y;
+	
+	v p1 = v(ux[1], ux[1] * projX, 0,);
+	v p2 = v(ux[1], ux[1] * projX, 0,);
+	
+	axisX = ux[0];
+	axisY = ux[1];
+	v ppt = v(pt.x, pt.y*projX, 0);
+	v pppt = v(ppt.x*projY, ppt.y, 0);
+	if ( ( (pppt.x / segX)*(pppt.x / segX) + (pppt.y / segY)*(pppt.y / segY) ) > 1 ) result = true;
+	else result = false;
+	return result;
+}
+
+
+
 from PIL import Image
 from PIL import ImageDraw
 import random
