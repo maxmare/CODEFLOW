@@ -1,34 +1,108 @@
-bool curveInside(v u1,v u2,v u3,v pt){
-	bool result = false;
-	bool inBbox = true;
+#_________________________________________________________________________________________
+def curveInside(u1,u2,u3,pt):
+	result = False
+	inBbox = True
 
-	f ux[2];//ux[0] is the x that gets a projected y
-	f uy[2];//uy[1] is the y that gets a projected x
+	u = []
+	u.append(u1); u.append(u2); u.append(u3); 
+	#ux = [0,0]#ux[0] is the x that gets a projected y
+	#uy = [0,0]#uy[1] is the y that gets a projected x
 
-	seg1x = fabs(u1.x - u2.x)
-	seg1y = fabs(u1.y - u2.y)
-	seg2x = fabs(u3.x - u2.x)
-	seg2y = fabs(u3.y - u2.y)
+	seg1x = abs(u1[0] - u2[0])
+	seg2x = abs(u3[0] - u2[0])
+	minX = seg1x if seg1x < seg2x else seg2x
+	seg1y = abs(u1[1] - u2[1])
+	seg2y = abs(u3[1] - u2[1])
+	minY = seg1y if seg1y < seg2y else seg2y
+	#min = minX if minX < minY else minY
 
-	if (seg2y < seg1y) uy[1]
+	h = 2 if minX < minY else 0
+	v = 0 if h == 2 else 2
 	
-	projX = seg1x / seg1y;
-	projY = seg2x / seg2y;
-	
-	v p1 = v(ux[1], ux[1] * projX, 0,);
-	v p2 = v(ux[1], ux[1] * projX, 0,);
-	
-	axisX = ux[0];
-	axisY = ux[1];
-	v ppt = v(pt.x, pt.y*projX, 0);
-	v pppt = v(ppt.x*projY, ppt.y, 0);
-	if ( ( (pppt.x / segX)*(pppt.x / segX) + (pppt.y / segY)*(pppt.y / segY) ) > 1 ) result = true;
-	else result = false;
-	return result;
-}
+	projHX = u[h][0] - u[1][0]
+	projHY = float( u[h][1] - u[1][1] ) / float(projHX)
+	projVX = ( u[v][1] - u[1][1] ) - float( u[v][0] - u[1][0] ) * float(projHY)
+	projVY = ( u[v][0] - u[1][0] ) / projVX
 
+	#p1 = (u[h], u[h] * projX, 0,)
+	#p2 = (u[h], u[h] * projX, 0,)
+	#axisX = ux[v]
+	#axisY = ux[h]
 
+	p = ( float(pt[0]-u2[0]), float(pt[1]-u2[1]), 0 )
+	ppt = (float(p[0]), float(p[1])-float(p[0])*float(projHY), 0)
+	pppt = ( (float(ppt[0]) + float(ppt[1])*float(projVY) ), float(ppt[1]), 0)
 
+	if pt[0] == 30 and pt[1] == 20:
+		print 'h:', h, 'v:', v
+		print 'projHX:', projHX, 'projHY:', projHY
+		print 'projVX:', projVX, 'projVY:', projVY
+		print 'p:', p, 'ppt:', ppt, 'pppt:', pppt, 
+
+	ma = pppt[0] / projHX
+	mb = pppt[1] / projVX
+	if ( ( ma**2 + mb**2 ) > 1 ):
+		result = True
+	else:
+		result = False
+	return result
+
+from PIL import Image
+from PIL import ImageDraw
+import random
+import math
+
+random.seed(12345)
+imgSize = 128
+#imgSize = 512
+txt = Image.new('RGBA', (imgSize,imgSize), (0,0,0,0))#base.size
+d = ImageDraw.Draw(txt)
+
+curves = []
+curves.append([10,20])
+curves.append([40,15])
+curves.append([60,86])
+
+curves.append([60,50])
+curves.append([20,30])
+curves.append([0,0])
+
+curves.append([30,60])
+curves.append([18,7])
+curves.append([50,5])
+
+aax = [0.25, 0.75, 0.25, 0.75]
+aay = [0.25, 0.25, 0.75, 0.75]
+
+r = 0
+g = 100
+b = 0
+r2 = 100
+g2 = 0
+b2 = 0
+
+for i in range(128):
+	for l in range(128):
+		pt = [l,i]
+		d0 = float(curves[0][0]-i)**2 + float(curves[0][1]-l)**2
+		d1 = float(curves[1][0]-i)**2 + float(curves[1][1]-l)**2
+		d2 = float(curves[2][0]-i)**2 + float(curves[2][1]-l)**2
+		G = 25
+		if d0 < 2 or d1 < 2 or d2 < 2:
+			G = 200
+		result = curveInside(curves[0], curves[1], curves[2], pt)
+		if result:
+			d.point( (l,i), fill = (0,G,150) )
+		else:
+			pick = txt.getpixel((l,i))
+			newColor = (pick[0]+0, pick[1]+150, pick[2]+0) 
+			d.point( (l,i), fill = (150,G,0) )
+		pass
+
+txt = txt.resize((512,512))
+txt.show()
+#print circles
+#_________________________________________________________________________________________
 from PIL import Image
 from PIL import ImageDraw
 import random
