@@ -1,4 +1,151 @@
 #_________________________________________________________________________________________
+# returns a gradient, red 0-255 on the x and green, 0-255 on the y
+def getGradientPoint(point):
+	gradient  = (int(point[0]*60), int(point[1]*60), 0 )
+	return gradient
+	
+def quadInterpolate(u1,u2,u3,u4,pt):
+	result = False
+	inBbox = True
+
+	u = []
+	u.append(u1); u.append(u2); u.append(u3); u.append(u4);
+	#ux = [0,0]#ux[0] is the x that gets a projected y
+	#uy = [0,0]#uy[1] is the y that gets a projected x
+
+	seg1x = abs(u1[0] - u2[0])
+	seg2x = abs(u3[0] - u2[0])
+	minX = seg1x if seg1x < seg2x else seg2x
+	seg1y = abs(u1[1] - u2[1])
+	seg2y = abs(u3[1] - u2[1])
+	minY = seg1y if seg1y < seg2y else seg2y
+	#min = minX if minX < minY else minY
+
+	h = 2 if minX < minY else 0
+	v = 0 if h == 2 else 2
+	
+	projHX = u[h][0] - u[1][0]
+	projHY = float( u[h][1] - u[1][1] ) / float(projHX)
+	projVX = ( u[v][1] - u[1][1] ) - float( u[v][0] - u[1][0] ) * float(projHY)
+	projVY = ( u[v][0] - u[1][0] ) / projVX
+
+	#p1 = (u[h], u[h] * projX, 0,)
+	#p2 = (u[h], u[h] * projX, 0,)
+	#axisX = ux[v]
+	#axisY = ux[h]
+
+	p = ( float(pt[0])-float(u2[0]), float(pt[1])-float(u2[1]), 0 )
+	ppt = (float(p[0]), float(p[1]) - float(p[0])*float(projHY), 0)
+	pppt = ( (float(ppt[0]) - float(ppt[1])*float(projVY) ), float(ppt[1]), 0)
+
+	p4 = ( float(u4[0])-float(u2[0]), float(u4[1])-float(u2[1]), 0 )
+	pt4 = (float(p4[0]), float(p4[1]) - float(p4[0])*float(projHY), 0)
+	ppt4 = ( (float(pt4[0]) - float(pt4[1])*float(projVY) ), float(pt4[1]), 0)
+	# check whether is inside the 0->1 circle,
+	ma = pppt[0] / projHX
+	mb = pppt[1] / projVX
+	
+	maa = ppt4[0] / projHX
+	mbb = ppt4[1] / projVX
+
+	#if ( ( ma**2 + mb**2 ) > (1+0) ):
+
+	#'''
+	if int(pt[0]) == 59 and int(pt[1]) == 86:
+		print 'h:', h, 'v:', v
+		print 'projHX:', projHX, 'projHY:', projHY
+		print 'projVX:', projVX, 'projVY:', projVY
+		print 'p:', p, 'ppt:', ppt, 'pppt:', pppt 
+		print 'p4:', p4, 'pt4:', pt4, 'ppt4:', ppt4
+		print 'ma:', ma, 'mb:', mb, 'maa:', maa, 'mbb:', mbb
+	#'''
+	ma1 = ma
+	ma = ma / (1+( (maa-1)*mb ))
+	mb = mb / (1+( (mbb-1)*ma1))
+	#mb = (mb / mbb)
+	if int(pt[0]) == 59 and int(pt[1]) == 86:
+		print 'ma:', ma, 'mb:', mb, 'maa:', maa, 'mbb:', mbb
+	
+
+	if ma > 0 and ma < 1 and mb > 0 and mb < 1:
+		result = True
+	else:
+		result = False
+	return (result, ma, mb)
+
+from PIL import Image
+from PIL import ImageDraw
+import random
+import math
+
+random.seed(12345)
+imgSize = 128
+#imgSize = 512
+txt = Image.new('RGBA', (imgSize,imgSize), (0,0,0,0))#base.size
+d = ImageDraw.Draw(txt)
+
+quads = []
+
+quads.append([20,20])
+quads.append([120,20])
+quads.append([80,80])
+quads.append([20,120])
+
+quads.append([10,20])
+quads.append([40,15])
+quads.append([60,86])
+quads.append([15,100])
+
+quads.append([60,20])
+quads.append([60,115])
+quads.append([10,86])
+quads.append([10,10])
+
+quads.append([15,100])
+quads.append([10,20])
+quads.append([40,15])
+quads.append([60,86])
+
+aax = [0.25, 0.75, 0.25, 0.75]
+aay = [0.25, 0.25, 0.75, 0.75]
+
+r = 0
+g = 100
+b = 0
+r2 = 100
+g2 = 0
+b2 = 0
+
+for i in range(128):
+	for l in range(128):
+		Color = (0, 0, 0)
+		for aa in range(4):
+			pt = [float(l)+aax[aa], float(i)+aay[aa]]
+			d0 = float(quads[0][0]-l)**2 + float(quads[0][1]-i)**2
+			d1 = float(quads[1][0]-l)**2 + float(quads[1][1]-i)**2
+			d2 = float(quads[2][0]-l)**2 + float(quads[2][1]-i)**2
+			d3 = float(quads[3][0]-l)**2 + float(quads[3][1]-i)**2
+			B = 0
+			if d0 < 2 or d1 < 2 or d2 < 2 or d3 < 2:
+				B = 250
+			result = quadInterpolate(quads[0], quads[1], quads[2], quads[3], pt)
+
+			if result[0]:
+				input = [ result[1], result[2] ]
+				newColor = getGradientPoint(input)
+				Color = (newColor[0]+Color[0], newColor[1]+Color[1], B)
+				d.point( (l+0, i+0), fill=Color )
+				pass
+			else:
+				input = [float(i)/128.0, float(l)/128.0]
+				newColor = getGradientPoint(input)
+				Color = (newColor[0]+Color[0], newColor[1]+Color[1], B)
+				d.point( (l+0, i+0), fill=newColor )
+
+txt = txt.resize((512,512))
+txt.show()
+#print circles
+#_________________________________________________________________________________________
 def curveInside(u1,u2,u3,pt):
 	result = False
 	inBbox = True
