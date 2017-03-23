@@ -1,4 +1,66 @@
 #-----------------------------------------------------------------------
+# experimenting with hash functions in c to come up with a system
+# to procedurally generate assets
+#-----------------------------------------------------------------------
+#include <iostream>
+#include <string>
+
+using namespace std;
+/*
+unsigned elf_hash(void *key, int len)
+{
+    unsigned char *p = key;
+    unsigned h = 0, g;
+    int i;
+
+    for (i = 0; i < len; i++)
+    {
+        h = (h << 4) + p[i];
+        g = h & 0xf0000000L;
+
+        if (g != 0)
+        {
+            h ^= g >> 24;
+        }
+
+        h &= ~g;
+    }
+
+    return h;
+}
+*/
+static unsigned int ELFHash(string str) {
+	unsigned int hash = 0;
+	unsigned int x = 0;
+	unsigned int i = 0;
+	unsigned int len = str.length();
+
+	for (i = 0; i < len; i++)
+	{
+		hash = (hash << 4) + (str[i]);
+		if ((x = hash & 0xF0000000) != 0)
+		{
+			hash ^= (x >> 24);
+		}
+		hash &= ~x;
+	}
+
+	return hash;
+}
+
+int main() {
+  std::cout << "Hello World!\n";
+  string texto = "Esto es una prueba";
+  uint g = ELFHash(texto);
+  uint h = 0;
+  h -= 1;
+  float k = (float)g / (float)h;
+  printf("g: %i\n", g);
+  printf("h: %u\n", h);
+  printf("k: %f\n", k);
+  
+}
+#-----------------------------------------------------------------------
 from PIL import Image
 from PIL import ImageDraw
 import random
