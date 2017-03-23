@@ -1,3 +1,86 @@
+#-----------------------------------------------------------------------
+from PIL import Image
+from PIL import ImageDraw
+import random
+import time
+import math
+
+random.seed(time.time())
+imgSize = 128
+#imgSize = 512
+txt = Image.new('RGBA', (imgSize,imgSize), (0,0,0,0))#base.size
+d = ImageDraw.Draw(txt)
+lines = []; point = []
+#lines.append([38.0,80.0]); lines.append([76.0,40.0]);
+lines.append([
+	(random.random()*2-1)*50.0+64.0,
+	(random.random()*2-1)*50.0+64.0])
+lines.append([
+	(random.random()*2-1)*50.0+64.0,
+	(random.random()*2-1)*50.0+64.0]);
+print lines
+point.append(50.0); point.append(50.0)
+aax = [0.25, 0.75, 0.25, 0.75]; aay = [0.25, 0.25, 0.75, 0.75]
+R = 0;	G = 0;	B = 0
+r1 = 100;	g1 = 0;		b1 = 0
+r2 = 0;		g2 = 100;	b2 = 0
+r3 = 0;		g3 = 0;		b3 = 100
+leftEdge = 0; rightEdge = 0
+di = -1
+
+for i in range(128):
+	for l in range(128):
+		#for aa in range(4):
+			#pt = [float(l)+aax[aa], float(i)+aay[aa]]
+		r = 0;	g = 0;	b = 0
+		lines.append([lines[0][0]-(lines[1][1] - lines[0][1]), lines[0][1]+(lines[1][0] - lines[0][0])])
+		d0 = float(lines[0][0]-l)**2 + float(lines[0][1]-i)**2
+		d1 = float(lines[1][0]-l)**2 + float(lines[1][1]-i)**2
+		d2 = float(lines[2][0]-l)**2 + float(lines[2][1]-i)**2
+		d3 = float(point[0]-l)**2 + float(point[1]-i)**2
+		if d0 < 2:
+			g = 200
+		if d1 < 2:
+			g = 100
+		if d2 < 2:
+			r = 125
+		if d3 < 2:
+			b = 125
+		pt = (i,l)
+		x1 = point[0]
+		y1 = point[1]
+		m = (lines[1][1] - lines[0][1]) / (lines[1][0] - lines[0][0])
+		q = lines[1][0] - (lines[1][1] * m)
+		#y = m*x + q # ray equation
+
+		A = point[0] - lines[0][0]
+		B = point[1] - lines[0][1]
+		C = lines[1][0] - lines[0][0]
+		D = lines[1][1] - lines[0][1]
+		distance = abs(A*D - C*B) / math.sqrt(C*C + D*D)
+		
+		C = lines[2][0] - lines[0][0]
+		D = lines[2][1] - lines[0][1]
+		distance2 = abs(A*D - C*B) / math.sqrt(C*C + D*D)
+
+		if d3 < distance**2:
+			g += 40
+		if d3 < distance2**2:
+			r += 40
+
+		#print "The distance is: ", distance
+		#print "The distance2 is: ", distance2
+
+		newColor = (r, g, b)
+		d.point( (l,i), fill = newColor )
+
+txt = txt.resize((512,512))
+txt.show()
+____________________________________________________________________________________
+____________________________________________________________________________________
+____________________________________________________________________________________
+____________________________________________________________________________________
+
 :: Handmade Hero Day 371 - OpenGL Vertex Arrays
 youtube-dl.exe -f 135+140 www.youtube.com/watch?v=Bn97Txqu9No
 :: Handmade Hero Day 370 - Shader Fallback sRGB
