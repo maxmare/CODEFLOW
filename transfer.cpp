@@ -1,4 +1,126 @@
 #-----------------------------------------------------------------------
+:: procedures
+
+:: given an ortho camera position and a world point, find the minimun distance to the camera ray and the minimum distance to the normal to the camera ray. Everything done in 2d.
+:: 
+
+#-----------------------------------------------------------------------
+# this version of finding the distance between a point and camera normal
+# has been converted to a procedure,
+from PIL import Image, ImageDraw, ImageFont
+import random
+import time
+import math
+
+random.seed(time.time())
+imgSize = 128
+#imgSize = 512
+base = Image.new('RGBA', (imgSize,imgSize), (0,0,0,0))#base.size
+txt = Image.new('RGBA', (imgSize,imgSize), (0,0,0,0))#base.size
+lines = []; point = []
+
+#lines.append([38.0,80.0]); lines.append([76.0,40.0]);
+lines.append([
+	(random.random()*2-1)*50.0+64.0,
+	(random.random()*2-1)*50.0+64.0])
+lines.append([
+	(random.random()*2-1)*50.0+64.0,
+	(random.random()*2-1)*50.0+64.0]);
+print lines
+point.append(50.0); point.append(50.0)
+aax = [0.25, 0.75, 0.25, 0.75]; aay = [0.25, 0.25, 0.75, 0.75]
+R = 0;	G = 0;	B = 0
+r1 = 100;	g1 = 0;		b1 = 0
+r2 = 0;		g2 = 100;	b2 = 0
+r3 = 0;		g3 = 0;		b3 = 100
+leftEdge = 0; rightEdge = 0
+di = -1
+
+def raytrace_distance(lines, point, i, l):
+	A = point[0] - lines[0][0]
+	B = point[1] - lines[0][1]
+	C = lines[1][0] - lines[0][0]
+	D = lines[1][1] - lines[0][1]
+	distance = abs(A*D - C*B) / math.sqrt(C*C + D*D)
+	C = lines[2][0] - lines[0][0]
+	D = lines[2][1] - lines[0][1]
+	distance2 = abs(A*D - C*B) / math.sqrt(C*C + D*D)
+	return (distance, distance2)
+
+no = 0
+for i in range(150):
+	random.seed(time.time())
+	txt = base
+	d = ImageDraw.Draw(txt)
+	lines = []
+	lines.append([
+		(random.random()*2-1)*50.0+64.0,
+		(random.random()*2-1)*50.0+64.0])
+	lines.append([
+		(random.random()*2-1)*50.0+64.0,
+		(random.random()*2-1)*50.0+64.0]);
+
+	for i in range(128):
+		for l in range(128):
+			#for aa in range(4):
+				#pt = [float(l)+aax[aa], float(i)+aay[aa]]
+			r = 0;	g = 0;	b = 0
+			lines.append([lines[0][0]-(lines[1][1] - lines[0][1]), lines[0][1]+(lines[1][0] - lines[0][0])])
+			d0 = float(lines[0][0]-l)**2 + float(lines[0][1]-i)**2
+			d1 = float(lines[1][0]-l)**2 + float(lines[1][1]-i)**2
+			d2 = float(lines[2][0]-l)**2 + float(lines[2][1]-i)**2
+			d3 = float(point[0]-l)**2 + float(point[1]-i)**2
+			if d0 < 2:
+				g = 200
+			if d1 < 2:
+				g = 100
+			if d2 < 2:
+				r = 125
+			if d3 < 2:
+				b = 125
+			pt = (i,l)
+			#x1 = point[0]
+			#y1 = point[1]
+			#m = (lines[1][1] - lines[0][1]) / (lines[1][0] - lines[0][0])
+			#q = lines[1][0] - (lines[1][1] * m)
+			#y = m*x + q # ray equation
+			A = point[0] - lines[0][0]
+			B = point[1] - lines[0][1]
+			C = lines[1][0] - lines[0][0]
+			D = lines[1][1] - lines[0][1]
+			distance = abs(A*D - C*B) / math.sqrt(C*C + D*D)
+			C = lines[2][0] - lines[0][0]
+			D = lines[2][1] - lines[0][1]
+			distance2 = abs(A*D - C*B) / math.sqrt(C*C + D*D)
+
+			pair = raytrace_distance(lines, point, i, l)
+			distance = pair[0]
+			distance2 = pair[1]
+
+			if d3 < distance**2:
+				g += 75
+			if d3 < distance2**2:
+				r += 75
+			#print "The distance is: ", distance
+			#print "The distance2 is: ", distance2
+			newColor = (r, g, b)
+			d.point( (l,i), fill = newColor )
+
+	txt = txt.resize((512,512))
+	d = ImageDraw.Draw(txt)
+	#fnt = ImageFont.truetype('LiberationMono.ttf', 40)
+	#text = str(round(lines[0][0],2)) + " " + str(round(lines[1][0],2)) + " " + str(round(point[0],2))
+	text = str(lines[0])
+	d.text( (10,10),  text )
+	text = str(lines[1])
+	d.text( (10,20),  text )
+	text = str(point)
+	d.text( (10,30),  text )
+	#txt.show()
+	no += 1
+	filename = "img." + str(no) + ".png"
+	txt.save(filename, "PNG")
+#-----------------------------------------------------------------------
 # experimenting with hash functions in c to come up with a system
 # to procedurally generate assets
 #-----------------------------------------------------------------------
