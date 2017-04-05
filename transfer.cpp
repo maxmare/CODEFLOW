@@ -1,3 +1,91 @@
+
+
+look at Modo i n 2016 september, $44 ???
+what's that BCAA insurance? $30 al mes ???
+
+- 2016_01_19, Expenses, $26.25, Air Canada
+- 2016_01_20, Expenses, $86.25, Air Canada Aerofleet services
+- 2016_01_21, Expenses, $26.25, Air Canada
+- 2016_01_22, Expenses, $52.75, Beck taxi
+- 2016_01_22, Expenses, $36.00, Pacific Cabs CAR 50
+- 2016_01_26, Expenses, $174.62, American Phoenix
+- 2016_01_26, Expenses, $575.66, American Phoenix
+
+- 2016_02_07, Expenses, $150.00, Air Transat
+- 2016_02_07, Expenses, $2804.97, Air Transat Vacances
+
+- 2016_02_10, Expenses, $309.22, EasyJet Luton beds 147.85 GBP @ 2.0914
+- 2016_02_10, Expenses, $758.69, Ryanair Dublin
+- 2016_02_14, Expenses, $1538.74, Monarch Airlines 958.52 EUR @ 1.605 paid by Roberto
+- 2016_02_20, Expenses, $26.25, American phoenix
+- 2016_02_21, Expenses, $173.94, Miami Katsuya
+- 2016_02_21, Expenses, $142.41, Caffe Milano
+- 2016_02_22, Expenses, $251.64, The Miami Beach Edition
+- 2016_02_22, Expenses, $33.25, The Setai Resort & Res Miami Beach
+- 2016_02_23, Expenses, $25.33, American Miami
+- 2016_02_24, Expenses, $94.24, Fido additional contract
+- 2016_02_26, Expenses, $180, RSRS Record Storage North york
+- 2016_02_19, Expenses, $20, BCAA-Insurance (paid by Roberto) ???
+
+- 2016_03_11, Expenses, $9, Vancouver Airport
+
+- 2016_04_21, Expenses, $648.31, Cathay Pacific (credit)
+
+- 2016_05_01, Expenses, $80.19, Fido mobile additional contract (credit)
+- 2016_05_09, Expenses, $30.25, BCAA Insurance (credit paid by Roberto) ???
+- 2016_05_10, Expenses, $136.62, Chase New york 103.00 USD (credit)
+- 2016_05_10, Expenses, $92.41, NYC Taxi 70.01 USD (credit)
+- 2016_05_11, Expenses, $20.20, Wine Therapy NY 15.23 USD (credit)
+- 2016_05_12, Expenses, $64.93, Bacaro Restaurant NY 49.19 USD (credit)
+- 2016_05_12, Expenses, $14.24, Bouchon Bakery NY 10.72 USD (credit)
+- 2016_05_13, Expenses, $23.08, IT'SUGAR Central Park NY 17.38 USD (credit)
+- 2016_05_13, Expenses, $137.12, Valley National NY 103.25 USD (credit)
+- 2016_05_13, Expenses, $148.41, Cafeteria NY 111.75 USD (credit)
+- 2016_05_13, Expenses, $66.52, The Smith Lincoln Centre NY 50.09 USD (credit)
+- 2016_05_15, Expenses, $72.48, Socarrat Nolita NY 54.64 USD (credit)
+- 2016_05_16, Expenses, $28.89, J Crew NY 21.78 USD (credit)
+
+- 2016_09_21, Expenses, $625.74, BCAA Insurance (paid by Roberto) ???
+- 2016_09_21, BC Hydro, $58.12, bi-monthly bill???
++ 2016_09_21, Fuse FX. $3149.28, Payslip.
+- 2016_09_26, Expenses, $967.47, Air Canada (credit)
+- 2016_09_27, Appraisal Fee, $147.00, ???
+- 2016_09_28, Expenses, $217.43, Fido mobile additional contract (credit)
+- 2016_09_28, VolksWagen, $487.54, Credit???
+- 2016_09_28, ICBC, $218.33, car insurance
+- 2016_09_29, Expenses, $177.56, Air Canada (credit)
+- 2016_09_29, Expenses, $210.00, Air Canada (credit)
+- 2016_09_30, House Loan, $780.91, bi-weekly mortgage payment
+- 2016_10_03, AA Strata, $267.90, monthly fee
++ 2016_10_05, Alpha Kilo Creative, $8582.63, USD 6633.66
++ 2016_10_06, Fuse FX. $2823.73, Payslip.
+- 2016_10_12, Strata Levy, $12682.15, Cheque 0039 - month 02 October
+- 2016_10_14, House Loan, $780.91, bi-weekly mortgage payment
++ 2016_10_20, Fuse FX. $2657.04, Payslip.
+
+
+- 2017_01_30, ICBC, $228.06, car insurance
+- 2017_01_31, BC Hyddro, $525.49, January bill
+
+- 2017_02_01, AA Strata, $267.90, monthly fee
++ 2017_02_03, Double Negative, $2677.72, payslip
++ 2017_02_03, Alpha Kilo Creative, $6924.44, USD 5422
+- 2017_02_03, House Loan, $780.91, bi-weekly mortgage payment
++ 2017_02_17, Double Negative, $2639.01, payslip
+- 2017_02_17, House Loan, $780.91, bi-weekly mortgage payment
+- 2017_02_20, VolksWagen, $474.62, Credit???
+- 2017_02_28, ICBC, $228.06, car insurance
+- 2017_03_01, AA Strata, $267.90, monthly fee
++ 2017_03_03, Double Negative, $2561.61, payslip
++ 2017_03_03, Alpha Kilo Creative, $7122.77, USD 5422.33
+- 2017_03_03, House Loan, $780.91, bi-weekly mortgage payment
+- 2017_03_06, Fitness, $17.60, the Hive Bouldering Gym for Miranda
+- 2017_03_13, Strata Levy, $12682.15, Cheque 0085 - month 07 March
++ 2017_03_17, Double Negative, $2614.88, payslip
+- 2017_03_17, House Loan, $780.91, bi-weekly mortgage payment
++ 2017_03_20, Pablo, $2745.14, PABLO???
+- 2017_03_20, VolksWagen, $474.62, Credit???
+
 #-----------------------------------------------------------------------
 :: procedures
 
