@@ -1,3 +1,22 @@
+BC Forms that are needed,
+BC428, BC Tax
+BC479, BC Credits
+Line 5804, claim $10027
+Line 5838 - children fiteness amount, you can claim if you can claim line 459 on page 4
+- Line 458 and 459 - Children's fitness tax credit, 
+Line 5841 - children's arts amount.
+- Line 370 - children's arts amount.
+Line 5836 - Pension income amount, amount on line 314 of federal schedule or $1000, whichever is less ( we made no payments so go for the 1000 amount)
+Canadian Child tax benefits (CCTB), to view your CCTB information, go to cra.gc.ca/myaccount
+Amounts that are not taxed - any GST/HST, interest from TFSA accounts
+Line 101- Employment income from T4 slips
+Line 117 - Universal child care benefit (UCCB), report on line 117 the amount shown in box 10 of the RC62 slip
+Line 119 - Employment insurance.
+Line 121 - Interest and other investment income
+Lines 135 to 143 - Self-employment income, 
+- T4002, Business and Professional Income (Form T2125)
+Line 214 - Child care expenses.
+
 look at Modo i n 2016 september, $44 ???
 what's that BCAA insurance? $30 al mes ???
 
