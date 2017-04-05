@@ -1,5 +1,3 @@
-
-
 look at Modo i n 2016 september, $44 ???
 what's that BCAA insurance? $30 al mes ???
 
@@ -28,7 +26,10 @@ what's that BCAA insurance? $30 al mes ???
 - 2016_02_19, Expenses, $20, BCAA-Insurance (paid by Roberto) ???
 
 - 2016_03_11, Expenses, $9, Vancouver Airport
+- 2016_03_24, Expenses, $30.00, BCAA Insurance (credit paid by Roberto) ??? 
+- 2016_03_28, Expenses, $86.26, Fido Additional contract (credit) 
 
+- 2016_04_11, Expenses, $159.27, Dreamhost cristinabelmontepr.com  (credit by Rob)
 - 2016_04_21, Expenses, $648.31, Cathay Pacific (credit)
 
 - 2016_05_01, Expenses, $80.19, Fido mobile additional contract (credit)
@@ -44,7 +45,57 @@ what's that BCAA insurance? $30 al mes ???
 - 2016_05_13, Expenses, $66.52, The Smith Lincoln Centre NY 50.09 USD (credit)
 - 2016_05_15, Expenses, $72.48, Socarrat Nolita NY 54.64 USD (credit)
 - 2016_05_16, Expenses, $28.89, J Crew NY 21.78 USD (credit)
+- 2016_05_17, Expenses, $169.63, Anthom NY 127.38 USD (credit)
+- 2016_05_18, Expenses, $41.10, Teich NY 30.49 USD (credit)
+- 2016_05_19, Expenses, $18.35, Dean&Deluca NY 13.61 USD (credit)
+- 2016_05_19, Expenses, $13.91, McDonald's NY 10.32 USD (credit)
+- 2016_05_19, Expenses, $29.37, HBookseller NY 21.78 USD (credit)
+- 2016_05_19, Expenses, $8.78, Balducci NY 6.51 USD (credit)
+- 2016_05_27, Expenses, $19.63, Skype subscription (credit)
+- 2016_05_28, Expenses, $176.96, Fido additional contract (credit)
 
+- 2016_06_01, Expenses, $355.00, AirBNB (credit)
+- 2016_06_02, Expenses, $46.44, Expedia (credit)
+- 2016_06_02, Expenses, $774.01, Air Canada (credit)
+- 2016_06_06, Expenses, $292.90, R J McCarthy-Burnaby (credit)
+- 2016_06_07, Expenses, $145.10, EB2016 AZ Awards GAL (credit)
+- 2016_06_16, Expenses, $26.25, Air Canada ??? (credit)
+- 2016_06_19, Expenses, $26.25, Air Canada ??? (credit)
+- 2016_06_19, Expenses, $8.00, YVR Parking (credit paid by Roberto)
+- 2016_06_29, Expenses, $669.26, Air Canada (credit)
+
+- 2016_07_01, Expenses, $31.00, RBC Travel Insurance (credit)
+- 2016_07_04, Expenses, $132.73, Fido Additional contract (credit)
+- 2016_07_10, Expenses, $26.25, Air Canada (credit)
+- 2016_07_11, Expenses, $75.35, Yellow Card Services SF 55.95 USD (credit)
+- 2016_07_11, Expenses, $48.05, Falletti Foods SF 35.68 USD (credit)
+- 2016_07_12, Expenses, $53.35, Izakaya Sozai SF 39.80 USD (credit)
+- 2016_07_13, Expenses, $71.73, Alembic SF 54.01 USD (credit)
+- 2016_07_14, Expenses, $25.28, United Airlines TX 19.00 USD (credit)
+- 2016_07_14, Expenses, $40.00, Delta Taxi Surrey (credit)
+- 2016_07_28, Expenses, $130.01, Fido Additional contract (credit)
+
+- 2016_08_01, Expenses, $149.10, BCAA Insurance (credit by Roberto)
+- 2016_08_02, Expenses, $176.68, Hilton Gatwick (credit) ???
+- 2016_08_04, Expenses, $210.88, Hagenbeck Hamburg (credit) ???
+- 2016_08_06, Expenses, $38.64, Ryanair (credit) ???
+- 2016_08_07, Expenses, $30.14, LS Travel retail (credit) ???
+- 2016_08_24, Expenses, $1087.70, Bristish Airways (credit)
+- 2016_08_25, Expenses, $888.88, Air Canada (credit)
+- 2016_08_28, Expenses, $176.96, Fido Additional contract (credit)
+- 2016_08_29, Expenses, $31.00, RBC Travel Insurance (credit)
+- 2016_08_29, Expenses, $367.45, Hilton Gatwick ??? (credit)
+- 2016_08_31, Expenses, $185.00, Arts Umbrella (credit)
+- 2016_08_31, Expenses, $210.00, Air Canada (credit)
+
+- 2016_09_02, Expenses, $775.19, Clarkdale Motors ??? (credit)
+- 2016_09_09, Expenses, $166.90, www.AddisonLee.com Mini Cab (credit)
+- 2016_09_09, Expenses, $243.04, Kitty Fisher's 137.25 GBP (credit)
+- 2016_09_10, Expenses, $8.86, Studio Benjamin Loyau 5.00 GBP (credit)
+- 2016_09_10, Expenses, $122.36, V&A Museum 69.10 GBP (credit)
+- 2016_09_11, Expenses, $30.06, Waterstones 16.98 GBP (credit)
+- 2016_09_11, Expenses, $15.36, Itsu 8.68 GBP (credit)
+- 2016_09_11, Expenses, $17.71, LUL ticket machine 10.00 GBP (credit)
 - 2016_09_21, Expenses, $625.74, BCAA Insurance (paid by Roberto) ???
 - 2016_09_21, BC Hydro, $58.12, bi-monthly bill???
 + 2016_09_21, Fuse FX. $3149.28, Payslip.
@@ -64,6 +115,10 @@ what's that BCAA insurance? $30 al mes ???
 + 2016_10_20, Fuse FX. $2657.04, Payslip.
 
 
+- 2017_01_19, Expenses, $16.87, Skype Subscription (credit)
+- 2017_01_21, Arts, $555.00, Arts umbrella Miranda (credit)
+- 2017_01_21, Arts, $335.00, Arts umbrella Miranda (credit)
+- 2017_01_29, Expenses, $81.76, Fido Additional contract (credit)
 - 2017_01_30, ICBC, $228.06, car insurance
 - 2017_01_31, BC Hyddro, $525.49, January bill
 
@@ -71,20 +126,27 @@ what's that BCAA insurance? $30 al mes ???
 + 2017_02_03, Double Negative, $2677.72, payslip
 + 2017_02_03, Alpha Kilo Creative, $6924.44, USD 5422
 - 2017_02_03, House Loan, $780.91, bi-weekly mortgage payment
+- 2017_02_08, Home Expenses, $153.78, Vancouver Glass (credit)
+- 2017_02_08, Home Expenses, $204.96, Vaglio fireplace glass (credit)
 + 2017_02_17, Double Negative, $2639.01, payslip
 - 2017_02_17, House Loan, $780.91, bi-weekly mortgage payment
 - 2017_02_20, VolksWagen, $474.62, Credit???
+- 2017_02_28, Expenses, $81.76, Fido Additional contract (credit)
 - 2017_02_28, ICBC, $228.06, car insurance
+
 - 2017_03_01, AA Strata, $267.90, monthly fee
 + 2017_03_03, Double Negative, $2561.61, payslip
 + 2017_03_03, Alpha Kilo Creative, $7122.77, USD 5422.33
 - 2017_03_03, House Loan, $780.91, bi-weekly mortgage payment
 - 2017_03_06, Fitness, $17.60, the Hive Bouldering Gym for Miranda
+- 2017_03_08, Expenses, $970.03, Bristish Airways 574.80 GBP (credit)
 - 2017_03_13, Strata Levy, $12682.15, Cheque 0085 - month 07 March
 + 2017_03_17, Double Negative, $2614.88, payslip
 - 2017_03_17, House Loan, $780.91, bi-weekly mortgage payment
 + 2017_03_20, Pablo, $2745.14, PABLO???
 - 2017_03_20, VolksWagen, $474.62, Credit???
+
+- 2017_04_08, Expenses, $1204.36, Air Canada (credit)
 
 #-----------------------------------------------------------------------
 :: procedures
