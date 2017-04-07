@@ -1,3 +1,157 @@
+# very early days of this proc,...
+# raster draw a multi-faced polygon in 2d.
+#-----------------------------------------------------------------------
+from PIL import Image, ImageDraw, ImageFont
+import random
+import time
+import math
+
+# boilerplate,
+random.seed(time.time())
+imgSize = 128
+base = Image.new('RGBA', (imgSize,imgSize), (0,0,0,0))#base.size
+txt = Image.new('RGBA', (imgSize,imgSize), (0,0,0,0))#base.size
+lines = []; point = []
+
+# data,
+for i in range( int(random.random()*10)+4 ):
+	lines.append([
+		(random.random()*2-1)*50.0+64.0,
+		(random.random()*2-1)*50.0+64.0])
+
+point.append(50.0); point.append(50.0)
+aax = [0.25, 0.75, 0.25, 0.75]; aay = [0.25, 0.25, 0.75, 0.75]
+R = 0;	G = 0;	B = 0
+r = 0;	g = 0;	b = 0
+r1 = 100;	g1 = 0;		b1 = 0
+r2 = 0;		g2 = 100;	b2 = 0
+r3 = 0;		g3 = 0;		b3 = 100
+leftEdge = 0; rightEdge = 0
+di = -1
+
+# procedure face_multipoly_raster,
+# given a face defined by:
+#   number of points and a list of points, 
+# and a bitmap defined by:
+#   width and height of the bitmap in pixels and a list of pixels,
+# raster the pixels that are covered by the points in the order given.
+# we will use recursion to deal with concave areas of the face.
+def face_multipoly_raster(points, bitmap):
+	
+	pass
+
+no = 0
+for i in range(1):# no. tests to run (and images to generate),
+	random.seed(time.time())
+	txt = base
+	d = ImageDraw.Draw(txt)
+	lines = []
+	xmin = 0; xmax = 0; ymin = 0; ymax = 0; xmin_value = 0; ymin_value = 0; xmax_value = 0; ymax_value = 0; xmin_index = 0; ymin_index = 0
+	rndN = int(random.random()*10)+3
+	for i in range( rndN ):# no. lines
+		lines.append([0,0])
+	for i in range( rndN ):
+		lines[i][0] = (random.random()*2-1)*50.0+64.0
+		lines[i][1] = (random.random()*2-1)*50.0+64.0
+	a = lines[0][0]# initial max min values for first line
+	b = lines[0][1]  
+	xmin = xmax = a
+	ymin = ymax = b
+	for i in range( len(lines) ):# find max min values
+		a = lines[i][0]
+		b = lines[i][1]
+		if a < xmin:
+			xmin = a; xmin_index = i
+		if a > xmax:
+			xmax = a
+		if b < ymin:
+			ymin = b; ymin_index = i
+		if b > ymax:
+			ymax = b
+	min_index = 0; min_value = 0; max_value = 0
+	# agnostic direction min and max
+	if xmax - xmin > ymax-ymin:
+		df = 0; db = 1# forward and backward direction
+		min_index = xmin_index
+		min_value = xmin
+		max_value = xmax
+	else: 
+		df = 1; db = 0
+		min_index = ymin_index
+		min_value = ymin
+		max_value = ymax
+		
+	print lines
+	print "these are the corners of the bounding box,"
+	print xmin, xmax, ymin, ymax
+	
+	# we raster the polygon following its point ordering,
+	# the outline of the face is build by the ordering of the points,
+	lower_row = int(min_value)# rows to run the raster loop
+	upper_row = int(max_value)
+	linesNo = len(lines)
+	total = 1# no. points used in the raster
+	leftIndex = min_index - 1# point to the left of the current one
+	rightIndex = min_index + 1
+	total += 2
+	
+	for i in range( lower_row , upper_row ):
+		if leftIndex < 0:# wrapping on the left
+			leftIndex = linesNo-1
+		if leftIndex >= linesNo:# wrapping on the right
+			leftIndex = 0
+		if rightIndex < 0:# wrapping on the left
+			rightIndex = linesNo-1
+		if rightIndex >= linesNo:# wrapping on the right
+			rightIndex = 0
+		# how much we move sideways when we move up 1 pixel
+
+		# find leftmost pixel,
+		deltaLeft = lines[ leftIndex ][0]
+		leftmostPixel = deltaLeft
+		
+		# find rightmost pixel,
+		deltaRight = lines[ rightIndex ][0]
+		rightmostPixel = deltaRight
+
+		for j in range( leftmostPixel , rightmostPixel ):
+			r += 25; g += 25; b += 25; 
+			newColor = (r, g, b)
+			d.point( (l,i), fill = newColor )
+			pass
+	
+	# visualizing all the points 
+	for i in range(128):
+		for l in range(128):
+			#for aa in range(4):
+				#pt = [float(l)+aax[aa], float(i)+aay[aa]]
+			r = 0;	g = 0;	b = 0
+			for n in range( len( lines ) ):
+				d0 = float(lines[n][0]-l)**2 + float(lines[n][1]-i)**2
+				if d0 < 2:
+					g += 200
+			d0 = float(lines[min_index][0]-l)**2 + float(lines[min_index][1]-i)**2
+			if d0 < 2:
+				b += 200
+			#print "The distance is: ", distance
+			if xmin < l < xmax and ymin < i < ymax:
+				r += 50
+			pick = txt.getpixel( ( l, i ) )
+			newColor = ( pick[0]+r, pick[1]+g, pick[2]+b )
+			d.point( ( l, i ), fill = newColor )
+
+	txt = txt.resize((512,512))
+	d = ImageDraw.Draw(txt)
+	#fnt = ImageFont.truetype('LiberationMono.ttf', 40)
+	#text = str(round(lines[0][0],2)) + " " + str(round(lines[1][0],2)) + " " + str(round(point[0],2))
+	#text = str(lines[0])
+	#d.text( (10,10),  text )
+	txt.show()
+	no += 1
+	filename = "img." + str(no) + ".png"
+	txt.save(filename, "PNG")
+
+
 BC Forms that are needed,
 BC428, BC Tax
 BC479, BC Credits
