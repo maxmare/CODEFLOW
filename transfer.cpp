@@ -1,3 +1,37 @@
+# links,
+https://coldesignltd.com/
+#  tutoriales acerca de toonz
+https://www.youtube.com/watch?v=fpq7OxSOR0g
+https://github.com/tudelft3d/Random3Dcity/blob/master/generateCityGML.py
+http://images.thimbleweedpark.com/budget1f.png
+https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools
+http://i.imgur.com/EFAvkh1.png
+http://i.imgur.com/947tO14.gif
+http://i.imgur.com/5eTavBB.gif
+http://saltwort.tumblr.com/
+https://notgnoshi.github.io/printf/
+http://www.killingtimeatlightspeed.com/
+https://github.com/InteractiveComputerGraphics/PositionBasedDynamics/tree/master/PositionBasedDynamics
+https://github.com/Cyan4973/xxHash
+https://asafgartner.github.io/annotations_search/#memory
+http://downloads.guru3d.com/download.php?det=2814
+http://leshcatlabs.net/downloads_unfil/
+# stream from Sssmcgrath talking about text editor and learning sublime text,
+https://www.twitch.tv/sssmcgrath/v/97381962
+
+
+# RE: accesibility issues for app development
+There's another very important issue you have to take care of when you want to distribute GUI applications: Accessibility.
+This includes (but is not limited to):
+1. Can I mark and copy text? Is it any text, or just specific things?
+2. Can I enlarge the font or the entire view without breaking the app?
+3. Can I resize the window without breaking the app?
+4. Can I use the app with just the keyboard, or just the mouse (with an OS-provided on-screen keyboard)?
+5. Does it work with a screen reader?
+6. Does it play nicely with other OS accessibility features (high-contrast mode or DPI settings)?
+7. Will these features work automatically with custom widgets?
+
+
 # very early days of this proc,...
 # raster draw a multi-faced polygon in 2d.
 #-----------------------------------------------------------------------
