@@ -1,4 +1,14 @@
 # links,
+# character designs, (gotcha)
+https://www.behance.net/gallery/45512891/Digital-Sketches-and-process-vol-1-
+http://68.media.tumblr.com/458b91596991c035a1fdbcd1d59162c9/tumblr_o3y0crgZuU1qi8pxqo1_1280.jpg
+https://2.bp.blogspot.com/-Rut6uZ0GK2w/Vs35cGa8WYI/AAAAAAAAF5g/3HZvbPxtMc0/s1600/24.jpg
+http://68.media.tumblr.com/458b91596991c035a1fdbcd1d59162c9/tumblr_o3y0crgZuU1qi8pxqo1_1280.jpg
+https://1.bp.blogspot.com/-u9mbANGO9pY/Vs35VvAVpcI/AAAAAAAAF4w/vNmHTA5eS4M/s1600/23.jpg
+http://68.media.tumblr.com/32f1f1641fd1b9e2a50c51757a418684/tumblr_o3y0fyRFX61qi8pxqo2_1280.jpg
+# parallax example,
+http://pixeljoint.com/pixelart/112117.htm
+
 https://coldesignltd.com/
 #  tutoriales acerca de toonz
 https://www.youtube.com/watch?v=fpq7OxSOR0g
