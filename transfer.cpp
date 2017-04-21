@@ -1,3 +1,5 @@
+:: about sintax highlighting,
+https://linusakesson.net/programming/syntaxhighlighting/index.php
 # links,
 # character designs, (gotcha)
 https://www.behance.net/gallery/45512891/Digital-Sketches-and-process-vol-1-
