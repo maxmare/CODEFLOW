@@ -1,4 +1,7 @@
-
+:: google search images (colour palettes),
+Frederick Cayley Robinson
+:: nice architectural drawings,
+http://www.gilgorski.com/drawings-and-etchings.html
 
 :: about sintax highlighting,
 https://linusakesson.net/programming/syntaxhighlighting/index.php
