@@ -1,3 +1,13 @@
+:: the gender paradox documentary series,
+https://www.youtube.com/channel/UCTgFLaUf-u7dM60GdbKzYrg
+1 - The Gender Equality Paradox
+2 - The Parental Effect
+3 - Gay/Straight
+4 - Violence
+5 - Sex
+6 - Race
+7 - Nature or Nurture
+
 :: google search images (colour palettes),
 Frederick Cayley Robinson
 :: nice architectural drawings,
