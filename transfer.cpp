@@ -1,3 +1,28 @@
+INGREDIENTS
+FOR THE CAKE
+¾  cup butter, plus more for greasing the pan
+3 ½  cups sifted all-purpose flour, plus more for flouring the pan
+½  teaspoon salt
+½  teaspoon baking soda
+2 ½  cups granulated sugar
+¾  cup solid shortening
+4  large eggs
+2  teaspoons vanilla extract
+1  cup cultured buttermilk (see note)
+ Juice of 1 lemon, strained
+FOR THE GLAZE
+⅔  cup sifted confectioners' sugar
+2  tablespoons lemon juice
+1  teaspoon grated lemon zest
+ Nutritional Information
+Email Grocery List
+PREPARATION
+FOR THE CAKE
+Bring all the ingredients to room temperature. Preheat the oven to 300 degrees. Grease and flour a bundt pan, tapping out excess flour.
+In a medium bowl, whisk together the flour, salt and baking soda. In another medium bowl, whisk the sugar to break up clumps.
+In the bowl of a standing mixer fitted with a paddle attachment, cream the butter and shortening, stopping to scrape down the sides. Slowly drizzle in the sugar; cream the mixture well. Beat in the eggs one at a time, adding the next when the last has been incorporated. Mix in the vanilla. On low speed, mix in a third of the flour mixture until just combined. Add a third of the buttermilk, mixing until just combined. Repeat with the remaining flour and buttermilk. Add the lemon juice and mix to combine.
+Pour the batter into the prepared pan. Bake until a cake tester inserted comes out clean, about 75 minutes. The top of the cake will be lightly browned, and the sides will shrink slightly from the pan. Cool for 20 minutes before inverting onto a cake platter.
+Before serving, stir together the glaze ingredients and spoon over the top and sides of the cake. It’s even better the next day.
 # test to convert to codeflow unit tests,
 # test.py
 # common plumbing for test units,
