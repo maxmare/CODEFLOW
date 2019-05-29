@@ -1,165 +1,297 @@
-// Protean clouds by nimitz (twitter: @stormoid)
-// https://www.shadertoy.com/view/3l23Rh
-// License Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License
-// Contact the author for other licensing options
+# ../code/codeflow.cpp
+import fnmatch
+import glob
+import os
+import pprint
+import re# regex
+import subprocess
+import sys
+import time
 
-/*
-	Technical details:
 
-	The main volume noise is generated from a deformed periodic grid, which can produce
-	a large range of noise-like patterns at very cheap evalutation cost. Allowing for multiple
-	fetches of volume gradient computation for improved lighting.
 
-	To further accelerate marching, since the volume is smooth, more than half the the density
-	information isn't used to rendering or shading but only as an underlying volume	distance to 
-	determine dynamic step size, by carefully selecting an equation	(polynomial for speed) to 
-	step as a function of overall density (not necessarialy rendered) the visual results can be 
-	the	same as a naive implementation with ~40% increase in rendering performance.
+Default_types = [
+	'struct', 'union', 'class', 'void',
+	'#define', 'typedef',
+	'char',
+	'int', 'float', 'double', 'char',
+	'int8', 'uint8', 'int16', 'uint16', 'int32', 'uint32', 'int64', 'uint64',
+	'real32'
+]
 
-	Since the dynamic marching step size is even less uniform due to steps not being rendered at all
-	the fog is evaluated as the difference of the fog integral at each rendered step.
+def splittokens(str):
+	buffer = ''
+	tokens = []
+	for ch in str:
+		#print ch
+		if buffer == '':
+			if ch.isalpha() or ch.isdigit() or ch=='_':
+				buffer += ch
+			elif not ch.isspace():
+				tokens.append(ch)
+				continue
+		else:
+			if buffer[0].isdigit():
+				if ch.isdigit():
+					buffer += ch
+					continue
+				else:
+					tokens.append(buffer); buffer = ''
+			elif buffer[0].isalpha() or buffer[0]=='_':
+				if ch.isalpha() or ch.isdigit() or ch=='_':
+					buffer += ch
+					continue
+				else:
+					tokens.append(buffer); buffer = ''
+			if not ch.isspace():
+				tokens.append(ch)
+	if buffer != '':
+		tokens.append(buffer)
+	return tokens
 
-*/
+str = ";\n\nvoid createDivPanel(screenLayout* scr, int ind, real32 perc, bool vert)"
+str = "}\n\ninternal void\nGameOutputSound(game_state *GameState, game_sound_output_buffer *SoundBuffer, int ToneHz)"
+str = ";\n\ntypedef int8_t int8"
+pprint.pprint( splittokens(str) )
 
-mat3 rot_x(float a){float sa = sin(a); float ca = cos(a); return mat3(1.,.0,.0,    .0,ca,sa,   .0,-sa,ca);}
-mat3 rot_y(float a){float sa = sin(a); float ca = cos(a); return mat3(ca,.0,sa,    .0,1.,.0,   -sa,.0,ca);}
-mat3 rot_z(float a){float sa = sin(a); float ca = cos(a); return mat3(ca,sa,.0,    -sa,ca,.0,  .0,.0,1.);}
-mat2 rot(in float a){float c = cos(a), s = sin(a);return mat2(c,s,-s,c);}
-const float fov = 1.5;
+assert(not False)
 
-const mat3 m3 = mat3(0.33338, 0.56034, -0.71817, -0.87887, 0.32651, -0.15323, 0.15162, 0.69596, 0.61339)*1.93;
-float mag2(vec2 p){return dot(p,p);}
-float mag2(vec3 p){return dot(p,p);}
+def readLogic(logicbit, parent):
+	print Default_types
 
-float linstep(in float mn, in float mx, in float x){ return clamp((x - mn)/(mx - mn), 0., 1.); }
-vec2 disp(float t){ return vec2(sin(t*0.22)*1., cos(t*0.175)*1.)*2.; }
-float prm1 = 0.;
-vec2 bsMo = vec2(0);
+#readLogic(1,1)
+#input()
+	
+User_types = []# the custom types the proc discovers will be added here,
+Types = list(set( Default_types + User_types ) )
+codeTypes = []
+result = []# entries as [ var_name, child_name, cb-link ]
 
-float colVar = 0.;
-float shapeVar = 0.;
+arguments = sys.argv
+if (len(sys.argv)!=1):
+	print '#USAGE: python type_tags'
+	print '#DESCRIPTION: gathers all types defined in a code base'
+else :
+	start_time = time.time()
+	codefolder = '''Z:\code'''
+	if(os.access(codefolder, os.F_OK)):
+		dirlist = os.listdir(codefolder)
+		print dirlist
+		ft = 0;# foldertime
+		count = 0
 
-float mg2(vec2 p){return dot(p,p);}
+		#dirlist = ["_temp.cpp"]
+		for dir in dirlist:
+			sourceFile = os.path.join(codefolder, dir)
+			imt = os.stat( os.path.join(codefolder, dir) )[8]# st_mtime
+			with open (sourceFile, "r") as file:
+				lines = file.readlines()
+			for str in dirlist:
+				for line in lines:
+					if (line.find(str) != -1) and (line.find("#include") != -1):
+						print dir, '->', str
 
-vec2 map(vec3 p)
-{
-    vec3 p2 = p;
-    p2.xy -= disp(p.z).xy;
-    p.xy *= rot(sin(p.z+iTime)*0.15 + iTime*0.09);
-    float cl = mag2(p2.xy);
-    float d = 0.;
-    p *= .61;
-    float z = 1.;
-    float trk = 1.;
-    for(int i = 0; i < 5; i++)
-    {
-		p += sin(p.zxy*0.75*trk + iTime*trk*.8)*(0.1 + prm1*0.2);
-        d -= abs(dot(cos(p), sin(p.yzx))*z);
-        z *= 0.57;
-        trk *= 1.4;
-        p = p*m3;
-    }
-    d = abs(d + prm1*3.)+ prm1*.3 - 2.5 + bsMo.y;
-    return vec2(d + cl*.2 + 0.25, cl);
-}
+		assert(0)
 
-vec4 render( in vec3 ro, in vec3 rd, float time )
-{
-	vec4 rez = vec4(0);
-    const float ldst = 8.;
-	vec3 lpos = vec3(disp(time + ldst)*0.5, time + ldst);
-	float t = 1.5;
-	float fogT = 0.;
-	for(int i=0; i<130; i++)
-	{
-		if(rez.a > 0.99)break;
-
-		vec3 pos = ro + t*rd;
-        vec2 mpv = map(pos);
-		float den = clamp(mpv.x-0.3,0.,1.)*1.12;
-		float dn = clamp((mpv.x + 2.),0.,3.);
-        
-		vec4 col = vec4(0);
-        if (mpv.x > 0.6)
-        {
-        
-            col = vec4(sin(vec3(5.,0.4,0.2) + mpv.y*0.1 +sin(pos.z*0.4)*0.5 + 1.8)*0.5 + 0.5,0.08);
-            col *= den*den*den;
-			col.rgb *= linstep(4.,-2.5, mpv.x)*2.3;
-            float dif =  clamp((den - map(pos+.8).x)/9., 0.001, 1. );
-            dif += clamp((den - map(pos+.35).x)/2.5, 0.001, 1. );
-            col.xyz *= den*(vec3(0.005,.045,.075) + 1.5*vec3(0.033,0.07,0.03)*dif);
-        }
+		dirlist = ["_temp.cpp"]
+		for dir in dirlist:
 		
-		float fogC = exp(t*0.2 - 2.2);
-		col.rgba += vec4(0.06,0.11,0.11, 0.1)*clamp(fogC-fogT, 0., 1.);
-		fogT = fogC;
-		rez = rez + col*(1. - rez.a);
-		t += clamp(0.5 - dn*dn*.05, 0.09, 0.3);
-	}
-	return clamp(rez, 0.0, 1.0);
-}
+			sourceFile = os.path.join(codefolder, dir)
+			imt = os.stat( os.path.join(codefolder, dir) )[8]# st_mtime
 
+			with open (sourceFile, "r") as file:
+				fileString = file.read()
+			# gather all // /* and */ in a map with their position, process them in order and apply the logic sequentially to blank the comments
+			pos = 0
+			markList = []
+			while pos < (len(fileString)-1):
+				nextMark = []
+				str = fileString[pos:].find("//")
+				if str != -1:
+					nextMark.append( str )
+				str = fileString[pos:].find("/*")
+				if str != -1:
+					nextMark.append( str )
+				str = fileString[pos:].find("*/")
+				if str != -1:
+					nextMark.append( str )
+				if len(nextMark) == 0:
+					break
+				span = min(nextMark)
+				markList.append( span + pos)
+				pos += 2 + span
+			pprint.pprint(markList)				
 
-float getsat(vec3 c)
-{
-    float mi = min(min(c.x, c.y), c.z);
-    float ma = max(max(c.x, c.y), c.z);
-    return (ma - mi)/(ma+ 1e-7);
-}
+			# now blanking the comments,
+			pos = 0
+			processing_comment = False
+			for mark in markList:
+				if fileString[mark:mark+2] == '//' and processing_comment == False:
+					span = fileString[mark:].find('\n')
+					endOfLine = span + mark
+					fileString = fileString[:mark] + " "*span + fileString[endOfLine:]
+					pos = endOfLine
+				if fileString[mark:mark+2] == '/*' and mark >= pos and not processing_comment:
+					processing_comment = True
+					pos = mark# what about multiple open comment marks?
+					print "open comment at: ", pos
+				if fileString[mark:mark+2] == '*/' and processing_comment:
+					endOfComment = mark+2
+					print "open comment at: ", endOfComment
+					span = mark+2 - pos
+					count = fileString[pos:endOfComment].count("\n")
+					fileString = fileString[:pos] + " "*(span-count) + "\n"*count + fileString[endOfComment:]
+					pos = mark+2
+					processing_comment = False
 
-//from my "Will it blend" shader (https://www.shadertoy.com/view/lsdGzN)
-vec3 iLerp(in vec3 a, in vec3 b, in float x)
-{
-    vec3 ic = mix(a, b, x) + vec3(1e-6,0.,0.);
-    float sd = abs(getsat(ic) - mix(getsat(a), getsat(b), x));
-    vec3 dir = normalize(vec3(2.*ic.x - ic.y - ic.z, 2.*ic.y - ic.x - ic.z, 2.*ic.z - ic.y - ic.x));
-    float lgt = dot(vec3(1.0), ic);
-    float ff = dot(dir, normalize(ic));
-    ic += 1.5*dir*sd*ff*lgt;
-    return clamp(ic,0.,1.);
-}
+	# index all "\n"(newlines) so using both indices we can track down the position in the code
+	# where a type has been defined,
+	lineArray = [ fileString.find('\n') ]
+	#print fileString
+	print len(lineArray)
+	while True:
+		offset = lineArray[-1] + 1
+		next_pos = fileString[offset:].find('\n')
+		if next_pos == -1:
+			break
+		lineArray.append( next_pos + offset )
+	print "no. lines: ", len(lineArray)
 
-void mainImage( out vec4 fragColor, in vec2 fragCoord )
-{	
-	vec2 q = fragCoord.xy/iResolution.xy;
-    vec2 p = q - 0.5;
-	p.x *= iResolution.x/iResolution.y;
-    vec2 mous = iMouse.xy/iResolution.xy;
-	vec2 mo = mous - 0.5;
-    bsMo = mo;
-    mo = (mo==vec2(-0.5))?mo=vec2(0.12, 0.15):mo;
-	mo.x *= iResolution.x/iResolution.y;
-    mo*= 4.14;
-	mo.y = clamp(mo.y*0.6-.5,-4. ,.15 );
-    
-    float time = iTime*3.;
-    vec3 ro = vec3(0,0,time);
-    
-    
-    ro += vec3(sin(iTime)*0.5,sin(iTime*1.)*0.,0);
-        
-    float dspAmp = .85;
-    ro.xy += disp(ro.z)*dspAmp;
-    float tgtDst = 3.5;
-    
-    
-    vec3 target = normalize(ro - vec3(disp(time + tgtDst)*dspAmp, time + tgtDst));
-    ro.x -= bsMo.x*2.;
-    vec3 rightdir = normalize(cross(target, vec3(0,1,0)));
-    vec3 updir = normalize(cross(rightdir, target));
-    rightdir = normalize(cross(updir, target));
-	vec3 rd=normalize((p.x*rightdir + p.y*updir)*1. - target);
-    rd.xy *= rot(-disp(time + 3.5).x*0.2 + bsMo.x);
-    prm1 = smoothstep(-0.4, 0.4,sin(iTime*0.3));
-	vec4 scn = render(ro, rd, time);
-		
-    vec3 col = scn.rgb;
-    col = iLerp(col.bgr, col.rgb, clamp(1.-prm1,0.05,1.));
-    
-    col = pow(col, vec3(.55,0.65,0.6))*vec3(1.,.97,.9);
+	# new approach, index all characters "{};" as between them there are discrete pieces of logic,
+	copyString = fileString
+	pos = -1
+	newpos = -1
+	for i in range(10):
+	#while True:
+		pos = copyString[newpos+1:].find("#define")
+		if pos == -1:
+			break
+		newpos += pos + 1
+		#print pos, newpos
+		copyString = copyString[:newpos] + copyString[newpos:].replace("\n", ";", 1)
+	
+	#input("we have tokenized the #define statements")
+	outString = copyString
+	
+	copyString = copyString.replace('{', '@')
+	copyString = copyString.replace('}', '@')
+	copyString = copyString.replace(';', '@')
+	logicArray = [0]
+	#logicArray = [ copyString.find('@') ]
+	#print "logicArray: ", logicArray[-1]
+	while True:
+		offset = logicArray[-1] + 1
+		next_pos = copyString[offset:].find('@')
+		if next_pos == -1:
+			break
+		logicArray.append( next_pos + offset )
+	#print "no. {}; characters: ", len(logicArray)
+	#print "first character: ", fileString[logicArray[0]]
+	#print "last character: ", fileString[logicArray[-1]]
+	#print "logicArray: ", logicArray, '\n'
+	
+	# process between logic separator indices to extract types,
+	# parenthesis are processed only if we find a function call,
+	logicbit = ''
+	for i, item in enumerate( logicArray[:-1] ):
+		logicbit = fileString[ item : logicArray[i+1] ]
+		result.append(logicbit)
+		# to find out the line where the logic bit operates, look at the index of the logicbit and find the pos in the fileString
+		#result.append(logicbit.replace('\n','').replace('\t','').replace(';',''))
+	#pprint.pprint( result )
 
-    col *= pow( 16.0*q.x*q.y*(1.0-q.x)*(1.0-q.y), 0.12)*0.7+0.3; //Vign
-    
-	fragColor = vec4( col, 1.0 );
-}
+	#logicbit = '''#define internal static '''
+	#print 'logicbit: "', logicbit, "\""
+	#result = ['#define internal static']
+	#result = ["void createDivPanel(screenLayout* scr, int ind, real32 perc, bool vert)"]
+	
+	for logicbit in result:
+		#print logicbit
+		wordList = splittokens(logicbit)
+		#print wordList
+		nextLogic = False
+		for i, word in enumerate(wordList):
+			#pprint.pprint( wordList )
+			word = word.strip()
+			for type in Types:
+				#if type == word and i+1 <= len(wordList)-1:
+				if type == word:
+					if word == '#define':
+						codeTypes.append(wordList[i+1])
+						#print wordList[i+1]
+						nextLogic = True
+					elif word == 'typedef':
+						codeTypes.append(wordList[i+2])
+						#print wordList[i+2]
+						nextLogic = True
+					elif word == 'struct' or word == 'union' or word == 'class':
+						codeTypes.append(wordList[i+1])
+						#print wordList[i+1]
+						parent = codeTypes[-1]
+						# read the open/close scope  and count the scopes depth until is back to 0, followed by a ';'
+						nextLogic = True
+						
+					else:
+						# check for open/close parens after a type,
+						# followed by open/close scope and count the scopes depth until is back to 0 
+						# check the presence of a * qualifying the type
+						
+						# for sub-processing the body of a type or function, go back to the indices,
+						
+						#codeTypes.append(wordList[i+1])
+						#print wordList
+						wordList[i+1]
+						nextLogic = True
+						
+						# we don't know if we want to handle functions inside structs,
+						# one way to avoid it is by not acknowledging the struct type until its scope has ended
+			if nextLogic:
+				break
+
+	# bad approach, there is no logic that follows new lines in C,
+	'''
+	lineArray = fileString.split('\n')# to keep track of the line number for creating links later,
+	#if False:
+	prefix = ''
+	for line in lineArray:
+		statementArray = line.split(';')
+		for statement in statementArray:
+			openBracketPos = 
+			wordList = statement.split()
+			for eType in Types:
+				for i, word in enumerate(wordList):
+					word = word.strip(' *{}();')
+					if word == eType:
+						# we need to process inside these as sub-types,
+						if word == 'struct' or word == 'union' or word == 'class' or word == 'void':
+							if i+1 <= len(wordList)-1:
+								typeword = wordList[i+1].strip(' *{}();')
+							prefix = typeworld + '.'
+
+						if word == '#define' or word == '#define'
+						if word == '#define' or word == '#define'
+						print word
+						typeword = ''
+						if i+1 <= len(wordList)-1:
+							typeword = wordList[i+1].strip(' *{}();')
+						str = word + ' ' + typeword
+						result.append( str )
+						if eType == 'typedef':
+							User_types.append(typeword)
+							Types = sorted( list(set( Default_types + User_types ) ) )
+						break
+			count += 1
+			if count > 1000:
+				pprint.pprint(result)
+				assert(False)
+	'''
+#print logicArray
+#pprint.pprint(codeTypes)
+#pprint.pprint(result)
+#pprint.pprint(Types)
+
+fout = open("_tempB.cpp", "w")
+#fout.write(outString)
+fout.write( pprint.pformat(result) )
+#fout.write(fileString)
+fout.close()
