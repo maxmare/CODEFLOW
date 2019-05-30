@@ -18,7 +18,10 @@ Default_types = [
 	'int8', 'uint8', 'int16', 'uint16', 'int32', 'uint32', 'int64', 'uint64',
 	'real32'
 ]
+User_types = []# the custom types the proc discovers will be added here,
+Types = list(set( Default_types + User_types ) )
 
+# splits a C statement into tokens, ignoring white space,
 def splittokens(str):
 	buffer = ''
 	tokens = []
@@ -62,8 +65,6 @@ def readLogic(logicbit, parent):
 #readLogic(1,1)
 #input()
 	
-User_types = []# the custom types the proc discovers will be added here,
-Types = list(set( Default_types + User_types ) )
 codeTypes = []
 result = []# entries as [ var_name, child_name, cb-link ]
 
@@ -79,8 +80,11 @@ else :
 		print dirlist
 		ft = 0;# foldertime
 		count = 0
-
+		
+		# reads all files included and assigns processing priority based on how many inclusions a file has,
 		#dirlist = ["_temp.cpp"]
+		inclList = []
+		weightList = []
 		for dir in dirlist:
 			sourceFile = os.path.join(codefolder, dir)
 			imt = os.stat( os.path.join(codefolder, dir) )[8]# st_mtime
@@ -89,7 +93,25 @@ else :
 			for str in dirlist:
 				for line in lines:
 					if (line.find(str) != -1) and (line.find("#include") != -1):
+						inclList.append( [dir, str] )
 						print dir, '->', str
+		for item in inclList:
+			item
+one.cpp -> source.h
+two.cpp -> source.h
+source.cpp -> source.h
+source.h -> common.h
+
+source.cpp -> 0
+uno.cpp -> 0
+tow.cpp -> 0
+source.h -> 1 -> 2 -> 3
+comomn.h -> 1
+
+source -> +0 -> +0 -> +0
+common.h -> +3 = 4
+
+sort by weight
 
 		assert(0)
 
